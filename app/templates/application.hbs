@@ -1,5 +1,37 @@
-{{!-- The following component displays Ember's default welcome message. --}}
-{{welcome-page}}
-{{!-- Feel free to remove this! --}}
+<ul>
+  <li>We have a <strong>Plan</strong>, which has many <strong>Milestone</strong>s. Both the <strong>Plan</strong> and the <strong>Milestone</strong> can have many <strong>Comment</strong>s.</li>
 
-{{outlet}}
+  <li>We want to display a list of all comments in the "Combined comments" section at the bottom of the page (i.e. all comments for the plan combined with all comments for each milestone of the plan).</li>
+
+  <li>What's working: if you add a comment to the plan or any milestone, they appear at the bottom of the page. Also when you delete a plan comment, it disappears.</li>
+
+  <li>What's <strong>not</strong> working: when you click to delete a milestone comment, it disappears in the Ember data store, but the "combinedComments" computed component does not fire. <strong>Why is this?</strong></li>
+</ul>
+
+<hr>
+
+<h1>Plan</h1>
+
+<p>Number of comments so far for this plan: {{ model.comments.length }}</p>
+
+{{comment-input commentable=model}}
+
+{{#each model.milestones as |milestone index|}}
+
+  <h2>Milestone {{index}}</h2>
+
+  <p>Number of comments so far for this milestone: {{ milestone.comments.length }}</p>
+
+  {{comment-input commentable=milestone}}
+
+{{/each}}
+
+<h3>Combined comments</h3>
+
+<p>Number of combined comments so far: {{combinedComments.length}}</p>
+
+<ul>
+  {{#each combinedComments as |comment|}}
+    {{x-comment comment=comment}}
+  {{/each}}
+</ul>
