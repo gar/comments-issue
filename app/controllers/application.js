@@ -2,8 +2,8 @@ import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 
 export default Controller.extend({
-  milestoneComments: computed.alias('model.milestones.@each.comments'),
-  combinedComments: computed('model.comments.[]', 'milestoneComments.[]', function() {
+  milestoneComments: computed.mapBy('model.milestones', 'comments'),
+  combinedComments: computed('model.comments.[]', 'milestoneComments.@each.[]', function() {
     let comments = [];
 
     this.get('model.comments').forEach((c) => {
